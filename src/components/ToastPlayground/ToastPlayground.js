@@ -11,7 +11,7 @@ const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
   const [message, setMessage] = useState("Welcome aboard!");
-  const [selected, setSelected] = useState("notice");
+  const [selected, setSelected] = useState(VARIANT_OPTIONS[0]);
   const [isToastShown, setIsToastShown] = useState(false);
 
   function handleShowToast() {
