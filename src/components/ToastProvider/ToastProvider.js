@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect, useCallback } from "react";
+import React, { useState, createContext, useCallback } from "react";
 
 import useKeydown from "../../hooks/use-keydown";
 
