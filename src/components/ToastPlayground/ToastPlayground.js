@@ -4,11 +4,14 @@ import Button from "../Button";
 
 import styles from "./ToastPlayground.module.css";
 
+import Toast from "../Toast/Toast";
+import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
+
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
-  const [message, setMessage] = useState("");
-  const [selected, setSelected] = useState();
+  const [message, setMessage] = useState("Welcome aboard!");
+  const [selected, setSelected] = useState("notice");
 
   return (
     <div className={styles.wrapper}>
@@ -16,6 +19,8 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      <Toast message={message} variant={selected} />
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
