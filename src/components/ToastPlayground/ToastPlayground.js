@@ -6,20 +6,47 @@ import styles from "./ToastPlayground.module.css";
 
 import Toast from "../Toast/Toast";
 import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
+import ToastShelf from "../ToastShelf/ToastShelf";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
+  const defaultSelected = VARIANT_OPTIONS[0];
   const [message, setMessage] = useState("Welcome aboard!");
-  const [selected, setSelected] = useState(VARIANT_OPTIONS[0]);
-  const [isToastShown, setIsToastShown] = useState(false);
+  const [selected, setSelected] = useState(defaultSelected);
+  const [toasts, setToasts] = useState([
+    {
+      id: crypto.randomUUID(),
+      message: "Something went wrong!",
+      variant: "error",
+    },
+    {
+      id: crypto.randomUUID(),
+      message: "17 photos uploaded",
+      variant: "success",
+    },
+  ]);
 
-  function handleShowToast() {
-    setIsToastShown(true);
+  function handleCreateToast(e) {
+    e.preventDefault();
+
+    const nextToasts = [
+      ...toasts,
+      {
+        id: crypto.randomUUID(),
+        message: message,
+        variant: selected,
+      },
+    ];
+
+    setMessage("");
+    setSelected(defaultSelected);
+    setToasts(nextToasts);
   }
 
-  function handleDismissToast() {
-    setIsToastShown(false);
+  function handleDismissToast(id) {
+    const nextToasts = toasts.filter((toast) => toast.id !== id);
+    setToasts(nextToasts);
   }
 
   return (
@@ -29,15 +56,9 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {isToastShown ? (
-        <Toast variant={selected} handleDismissToast={handleDismissToast}>
-          {message}
-        </Toast>
-      ) : (
-        ""
-      )}
+      <ToastShelf toasts={toasts} handleDismissToast={handleDismissToast} />
 
-      <div className={styles.controlsWrapper}>
+      <form className={styles.controlsWrapper} onSubmit={handleCreateToast}>
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -83,10 +104,10 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button onClick={handleShowToast}>Pop Toast!</Button>
+            <Button>Pop Toast!</Button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
